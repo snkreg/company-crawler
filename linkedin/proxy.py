@@ -1,6 +1,9 @@
 import random
+from os import path
 
-PROXIES = open('/home/doc/workspace/linkedin/linkedin/goodproxy.txt').readlines()
+path_to_list = path.join(path.dirname(__file__), 'proxy_list.txt')
+PROXIES = open(path_to_list).readlines()
+
 
 class ProxyEvaluator(object):
     MIN_CONN = 1
@@ -8,7 +11,7 @@ class ProxyEvaluator(object):
     def __init__(self):
         self._proxy_stats = {}
         for proxy in PROXIES:
-            self._proxy_stats[proxy] = (0,0)
+            self._proxy_stats[proxy] = (0, 0)
 
         self._previous_selections = None
         self._discarded = {}
@@ -44,6 +47,3 @@ class ProxyEvaluator(object):
 
         self._previous_selections = p
         return p
-
-
-
