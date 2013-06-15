@@ -1,2 +1,0 @@
-include scrapy.cfg
-include linkedin/goodproxy.txt
