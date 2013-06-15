@@ -67,8 +67,10 @@ class ProxySelectorMiddleware(object):
         self.min_level = settings.getint('MIN_LEVEL_FOR_PROXY')
 
     def process_request(self, request, spider):
-        if self.use_proxy(request):
+        request.meta['dont_redirect'] = True
+        if not self.proxy_ev.is_disabled() and self.use_proxy(request):
             p = self.proxy_ev.valid_proxy()
+            log.msg("Using proxy = %s on %s" % (p, request.url))
             try:
                 request.meta['proxy'] = "http://%s" % p
             except Exception, e:
@@ -84,7 +86,6 @@ class ProxySelectorMiddleware(object):
         if 'dont_retry' in request.meta:
             return response
         if response.status in self.retry_http_codes:
-            # We should not use this proxy
             reason = response_status_message(response.status)
             if has_proxy:
                 self.proxy_ev.inc_failure(request.meta['proxy'])
@@ -120,7 +121,7 @@ class ProxySelectorMiddleware(object):
         using direct download for depth <= 2
         using proxy with probability 0.3
         """
-        return False
+        return True
         if "depth" in request.meta and int(request.meta['depth']) <= self.min_level:
             return False
         i = random.randint(1, 10)

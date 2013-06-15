@@ -7,6 +7,11 @@ from scrapy import log
 # See: http://doc.scrapy.org/topics/item-pipeline.html
 
 
+"""
+Middleware that cleans the items' fields.
+"""
+
+
 class CleanseTextPipeline(object):
 
     def __extract_from_list(self, l):
@@ -20,7 +25,8 @@ class CleanseTextPipeline(object):
         name = re.sub(r'(^\s*|\s*$)', r'', name)
         item['name'] = name
         item['country'] = self.__extract_from_list(item['country'])
-        item['foundation_year'] = self.__extract_from_list(item['foundation_year'])
+        item['foundation_year'] = self.__extract_from_list(
+            item['foundation_year'])
         item['website_link'] = self.__extract_from_list(item['website_link'])
         return item
 
