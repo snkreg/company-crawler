@@ -55,7 +55,7 @@ PROXY_CHANCE = 3
 MIN_ATTEMPTS = 1
 
 ## CONTENT PARAMETERS
-# A string all the letters that will be looked up in the directory
+# A string that contains all the letters that will be looked up in the directory
 # Each letter implies that every companie with that character at the beginning
 # of its name will be retrieved.
 
